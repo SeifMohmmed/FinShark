@@ -6,13 +6,13 @@ import "./Card.css";
 interface Props {
   id: string;
   searchResults: CompanySearch;
-  onPrtofolioCreate: (e: SyntheticEvent) => void;
+  onPortfolioCreate: (e: SyntheticEvent) => void;
 }
 
 const Card: React.FC<Props> = ({
   id,
   searchResults,
-  onPrtofolioCreate,
+  onPortfolioCreate,
 }: Props) => {
   return (
     <div key={id} className="card">
@@ -26,7 +26,7 @@ const Card: React.FC<Props> = ({
         {searchResults.exchangeShortName} - {searchResults.stockExchange}
       </p>
       <AddPortfolio
-        onPrtofolioCreate={onPrtofolioCreate}
+        onPortfolioCreate={onPortfolioCreate}
         symbol={searchResults.symbol}
       />
     </div>

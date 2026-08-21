@@ -1,13 +1,13 @@
 import { type SyntheticEvent } from "react";
 
 interface Props {
-  onPrtofolioCreate: (e: SyntheticEvent) => void;
+  onPortfolioCreate: (e: SyntheticEvent) => void;
   symbol: string;
 }
 
-const AddPortfolio = ({ onPrtofolioCreate, symbol }: Props) => {
+const AddPortfolio = ({ onPortfolioCreate, symbol }: Props) => {
   return (
-    <form onSubmit={onPrtofolioCreate}>
+    <form onSubmit={onPortfolioCreate}>
       <input type="hidden" name="symbol" value={symbol} />
       <button type="submit">Add </button>
     </form>
