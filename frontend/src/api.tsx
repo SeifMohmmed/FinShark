@@ -22,3 +22,14 @@ export const searchCompanies = async (query: string) => {
     }
   }
 };
+
+export const getCompanyProfile = async (query: string) => {
+  try {
+    const data = await axios.get(
+      `https://financialmodelingprep.com/stable/profile?symbol=${query}&apikey=${import.meta.env.VITE_API_KEY}`,
+    );
+    return data;
+  } catch (error: any) {
+    console.log("error message: ", error.message);
+  }
+};
