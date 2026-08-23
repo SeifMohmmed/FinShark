@@ -139,7 +139,7 @@ export interface CompanyIncomeStatement {
   netIncome: number;
   netIncomeRatio: number;
   eps: number;
-  epsdiluted: number;
+  epsDiluted: number;
   weightedAverageShsOut: number;
   weightedAverageShsOutDil: number;
   link: string;

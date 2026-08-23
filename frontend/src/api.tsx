@@ -1,5 +1,9 @@
 import axios from "axios";
-import type { CompanyKeyMetrics, CompanySearch } from "./company";
+import type {
+  CompanyIncomeStatement,
+  CompanyKeyMetrics,
+  CompanySearch,
+} from "./company";
 
 export interface SearchResponse {
   data: CompanySearch[];
@@ -8,7 +12,7 @@ export interface SearchResponse {
 export const searchCompanies = async (query: string) => {
   try {
     const data = await axios.get<SearchResponse>(
-      `https://financialmodelingprep.com/stable/search-symbol?query=${query}&apikey=${import.meta.env.VITE_API_KEY}`,
+      `https://financialmodelingprep.com/stable/search-symbol?query=${query}&limit=40&&apikey=${import.meta.env.VITE_API_KEY}`,
     );
 
     return data;
@@ -42,5 +46,17 @@ export const getKeyMetrics = async (query: string) => {
     return data;
   } catch (error: any) {
     console.log("error message: ", error.message);
+  }
+};
+
+export const getIncomeStatement = async (query: string) => {
+  try {
+    const response = await axios.get<CompanyIncomeStatement[]>(
+      `https://financialmodelingprep.com/stable/income-statement?symbol=${query}&apikey=${import.meta.env.VITE_API_KEY}`,
+    );
+    return response.data;
+  } catch (error: any) {
+    console.log("error message: ", error.message);
+    throw error;
   }
 };
