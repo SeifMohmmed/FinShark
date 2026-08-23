@@ -3,6 +3,7 @@ import type { CompanyIncomeStatement } from "../../company";
 import { useEffect, useState } from "react";
 import { getIncomeStatement } from "../../api";
 import Table from "../Table/Table";
+import Spinner from "../Spinner/Spinner";
 
 type Props = {};
 
@@ -88,7 +89,7 @@ const IncomeStatements = () => {
       {incomeStatement.length > 0 ? (
         <Table config={configs} data={incomeStatement} />
       ) : (
-        <h1>Could not find income statement.</h1>
+        <Spinner />
       )}
     </>
   );
