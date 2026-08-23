@@ -37,12 +37,28 @@ const configs = [
     render: (company: CompanyIncomeStatement) => company.netIncome,
   },
   {
+    label: "Net Income Ratio",
+    render: (company: CompanyIncomeStatement) => company.netIncomeRatio,
+  },
+  {
     label: "Earnings Per Share",
     render: (company: CompanyIncomeStatement) => company.eps,
   },
   {
     label: "Earnings Per Diluted",
     render: (company: CompanyIncomeStatement) => company.epsDiluted,
+  },
+  {
+    label: "Gross Profit Ratio",
+    render: (company: CompanyIncomeStatement) => company.grossProfitRatio,
+  },
+  {
+    label: "Opearting Income Ratio",
+    render: (company: CompanyIncomeStatement) => company.operatingIncomeRatio,
+  },
+  {
+    label: "Income Before Taxes Ratio",
+    render: (company: CompanyIncomeStatement) => company.incomeBeforeTaxRatio,
   },
 ];
 
