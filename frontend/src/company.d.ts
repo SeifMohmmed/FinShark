@@ -11,7 +11,7 @@ export interface CompanyProfile {
   price: number;
   beta: number;
   volAvg: number;
-  mktCap: number;
+  marketCap: number;
   lastDiv: number;
   range: string;
   changes: number;
@@ -208,9 +208,9 @@ export interface CompanyCashFlow {
   symbol: string;
   reportedCurrency: string;
   cik: string;
-  fillingDate: string;
+  filingDate: string;
   acceptedDate: string;
-  calendarYear: string;
+  fiscalYear: string;
   period: string;
   netIncome: number;
   depreciationAndAmortization: number;
@@ -227,14 +227,21 @@ export interface CompanyCashFlow {
   acquisitionsNet: number;
   purchasesOfInvestments: number;
   salesMaturitiesOfInvestments: number;
-  otherInvestingActivites: number;
-  netCashUsedForInvestingActivites: number;
-  debtRepayment: number;
-  commonStockIssued: number;
+  otherInvestingActivities: number;
+  netCashProvidedByInvestingActivities: number;
+  netDebtIssuance: number;
+  longTermNetDebtIssuance: number;
+  shortTermNetDebtIssuance: number;
+  netStockIssuance: number;
+  netCommonStockIssuance: number;
+  commonStockIssuance: number;
   commonStockRepurchased: number;
-  dividendsPaid: number;
-  otherFinancingActivites: number;
-  netCashUsedProvidedByFinancingActivities: number;
+  netPreferredStockIssuance: number;
+  netDividendsPaid: number;
+  commonDividendsPaid: number;
+  preferredDividendsPaid: number;
+  otherFinancingActivities: number;
+  netCashProvidedByFinancingActivities: number;
   effectOfForexChangesOnCash: number;
   netChangeInCash: number;
   cashAtEndOfPeriod: number;
@@ -242,8 +249,8 @@ export interface CompanyCashFlow {
   operatingCashFlow: number;
   capitalExpenditure: number;
   freeCashFlow: number;
-  link: string;
-  finalLink: string;
+  incomeTaxesPaid: number;
+  interestPaid: number;
 }
 
 export interface CompanyKeyMetrics {

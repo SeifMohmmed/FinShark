@@ -4,7 +4,7 @@ import type { CompanyProfile } from "../../company";
 import { getCompanyProfile } from "../../api";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import CompanyDashboard from "../../Components/CompanyDashboard/CompanyDashboard";
-import Title from "../../Components/Title/Title";
+import Tile from "../../Components/Tile/Tile";
 
 interface Props {}
 
@@ -29,7 +29,13 @@ const CompanyPage = (props: Props) => {
           <Sidebar />
 
           <CompanyDashboard ticker={ticker!}>
-            <Title title="Company Name" subTitle={company.companyName} />
+            <Tile title="Company Name" subTitle={company.companyName} />
+            <Tile title="Price" subTitle={company.price.toString()} />
+            <Tile title="Beta" subTitle={company.beta.toString()} />
+            <Tile title="Sector" subTitle={company.sector} />
+            <p className="bg-white shadow rounded text-medium font-medium text-gray-900 p-3 mt-1 m-4">
+              {company.description}
+            </p>
           </CompanyDashboard>
         </div>
       ) : (

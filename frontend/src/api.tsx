@@ -1,6 +1,7 @@
 import axios from "axios";
 import type {
   CompanyBalanceSheet,
+  CompanyCashFlow,
   CompanyIncomeStatement,
   CompanyKeyMetrics,
   CompanySearch,
@@ -61,11 +62,24 @@ export const getIncomeStatement = async (query: string) => {
     throw error;
   }
 };
-//https://financialmodelingprep.com/stable/balance-sheet-statement?symbol=AAPL&apikey=
+
 export const getBalanceSheet = async (query: string) => {
   try {
     const response = await axios.get<CompanyBalanceSheet[]>(
       `https://financialmodelingprep.com/stable/balance-sheet-statement?symbol=${query}&apikey=${import.meta.env.VITE_API_KEY}`,
+    );
+    return response.data;
+  } catch (error: any) {
+    console.log("error message: ", error.message);
+    throw error;
+  }
+};
+
+//https://financialmodelingprep.com/stable/cash-flow-statement?symbol=AAPL&apikey=wUa2Wk8CxGleH9ZHGSeKng6LvJ18yEK7
+export const getCashFlowStatement = async (query: string) => {
+  try {
+    const response = await axios.get<CompanyCashFlow[]>(
+      `https://financialmodelingprep.com/stable/cash-flow-statement?symbol=${query}&apikey=${import.meta.env.VITE_API_KEY}`,
     );
     return response.data;
   } catch (error: any) {

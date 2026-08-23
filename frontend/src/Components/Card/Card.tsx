@@ -22,7 +22,7 @@ const Card: React.FC<Props> = ({
       id={id}
     >
       <Link
-        to={`/company/${searchResults.symbol}`}
+        to={`/company/${searchResults.symbol}/company-profile`}
         className="font-bold text-center text-black md:text-left"
       >
         {searchResults.name} ({searchResults.symbol})
