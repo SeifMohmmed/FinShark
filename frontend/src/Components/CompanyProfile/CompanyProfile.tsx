@@ -1,9 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import type { CompanyKeyMetrics } from "../../company";
+import { useOutletContext } from "react-router-dom";
+import { getKeyMetrics } from "../../api";
+import RatioList from "../RatioList/RatioList";
+
+const tableConfig = [
+  {
+    label: "Market Cap",
+    render: (company: CompanyKeyMetrics) => company.marketCapTTM,
+  },
+  {
+    label: "Current Ratio",
+    render: (company: CompanyKeyMetrics) => company.currentRatioTTM,
+  },
+  {
+    label: "Return On Equity",
+    render: (company: CompanyKeyMetrics) => company.roeTTM,
+  },
+  {
+    label: "Cash Per Share",
+    render: (company: CompanyKeyMetrics) => company.cashPerShareTTM,
+  },
+  {
+    label: "Current Ratio",
+    render: (company: CompanyKeyMetrics) => company.currentRatioTTM,
+  },
+  {
+    label: "Return On Equity",
+    render: (company: CompanyKeyMetrics) => company.roeTTM,
+  },
+];
 
 type Props = {};
 
 const CompanyProfile = (props: Props) => {
-  return <div>CompanyProfile</div>;
+  const ticker = useOutletContext<string>();
+  const [companyData, setCompanyData] = useState<CompanyKeyMetrics>();
+
+  useEffect(() => {
+    const getCompanyKeyRatios = async () => {
+      const value = await getKeyMetrics(ticker);
+      setCompanyData(value?.data[0]);
+    };
+    getCompanyKeyRatios();
+  }, []);
+
+  return (
+    <>
+      {companyData ? (
+        <>
+          <RatioList config={tableConfig} data={companyData} />
+        </>
+      ) : (
+        <h1>No data found</h1>
+      )}
+    </>
+  );
 };
 
 export default CompanyProfile;
