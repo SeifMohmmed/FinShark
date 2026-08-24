@@ -322,3 +322,13 @@ export interface CompanyCompData {
   price: number;
   mktCap: number;
 }
+
+export interface CompanyTenK {
+  symbol: string;
+  filingDate: string;
+  acceptedDate: string;
+  cik: string;
+  formType: string;
+  link: string;
+  finalLink: string;
+}

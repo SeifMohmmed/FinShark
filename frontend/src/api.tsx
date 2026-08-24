@@ -6,6 +6,7 @@ import type {
   CompanyIncomeStatement,
   CompanyKeyMetrics,
   CompanySearch,
+  CompanyTenK,
 } from "./company";
 
 export interface SearchResponse {
@@ -88,13 +89,25 @@ export const getCashFlowStatement = async (query: string) => {
   }
 };
 
-//https://financialmodelingprep.com/stable/stock-peers?symbol=AAPL&apikey=wUa2Wk8CxGleH9ZHGSeKng6LvJ18yEK7
 export const getStockPeers = async (query: string) => {
   try {
     const response = await axios.get<CompanyCompData[]>(
       `https://financialmodelingprep.com/stable/stock-peers?symbol=${query}&apikey=${import.meta.env.VITE_API_KEY}`,
     );
     return response.data;
+  } catch (error: any) {
+    console.log("error message: ", error.message);
+    throw error;
+  }
+};
+
+export const getTenKFilings = async (query: string) => {
+  try {
+    const response = await axios.get<CompanyTenK[]>(
+      `https://financialmodelingprep.com/stable/sec-filings-search/symbol?symbol=${query}&from=2020-01-01&to=2026-08-24&page=0&limit=100&apikey=${import.meta.env.VITE_API_KEY}`,
+    );
+
+    return response.data.filter((filing) => filing.formType === "10-K");
   } catch (error: any) {
     console.log("error message: ", error.message);
     throw error;
