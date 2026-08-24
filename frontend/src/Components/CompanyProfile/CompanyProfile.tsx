@@ -4,31 +4,34 @@ import { useOutletContext } from "react-router-dom";
 import { getKeyMetrics } from "../../api";
 import RatioList from "../RatioList/RatioList";
 import Spinner from "../Spinner/Spinner";
+import {
+  formatLargeMonetaryNumber,
+  formatRatio,
+} from "../../Helpers/NumberFormatting";
 
 const tableConfig = [
   {
     label: "Market Cap",
-    render: (company: CompanyKeyMetrics) => company.marketCapTTM,
+    subTitle: "Total market value of the company",
+    render: (company: CompanyKeyMetrics) =>
+      formatLargeMonetaryNumber(company.marketCapTTM),
   },
   {
     label: "Current Ratio",
-    render: (company: CompanyKeyMetrics) => company.currentRatioTTM,
+    subTitle: "Ability to cover short-term liabilities",
+    render: (company: CompanyKeyMetrics) =>
+      formatRatio(company.currentRatioTTM),
   },
   {
     label: "Return On Equity",
-    render: (company: CompanyKeyMetrics) => company.roeTTM,
+    subTitle: "Return generated on shareholders' equity",
+    render: (company: CompanyKeyMetrics) => formatRatio(company.roeTTM),
   },
   {
     label: "Cash Per Share",
-    render: (company: CompanyKeyMetrics) => company.cashPerShareTTM,
-  },
-  {
-    label: "Current Ratio",
-    render: (company: CompanyKeyMetrics) => company.currentRatioTTM,
-  },
-  {
-    label: "Return On Equity",
-    render: (company: CompanyKeyMetrics) => company.roeTTM,
+    subTitle: "Cash available for each share",
+    render: (company: CompanyKeyMetrics) =>
+      formatLargeMonetaryNumber(company.cashPerShareTTM),
   },
 ];
 

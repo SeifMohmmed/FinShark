@@ -33,7 +33,7 @@ const CompanyPage = (props: Props) => {
 
           <CompanyDashboard ticker={ticker!}>
             <Tile title="Company Name" subTitle={company.companyName} />
-            <Tile title="Price" subTitle={company.price.toString()} />
+            <Tile title="Price" subTitle={"$" + company.price.toString()} />
             <Tile title="Beta" subTitle={company.beta.toString()} />
             <Tile title="Sector" subTitle={company.sector} />
             <CompFinder ticker={company.symbol} />
