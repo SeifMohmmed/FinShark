@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos;
+using api.Dtos.Stock;
 using api.Models;
 
 namespace api.Mappers
@@ -20,6 +21,18 @@ namespace api.Mappers
               LastDiv = stock.LastDiv,
               Industry = stock.Industry,
               MarketCap = stock.MarketCap
+            };
+        }
+        public static Stock ToStockFromCreateStockDto(this CreateStockRequestDto createStockRequestDto)
+        {
+            return new Stock
+            {
+                Symbol = createStockRequestDto.Symbol,
+                CompanyName = createStockRequestDto.CompanyName,
+                Purchase = createStockRequestDto.Purchase,
+                LastDiv = createStockRequestDto.LastDiv,
+                Industry = createStockRequestDto.Industry,
+                MarketCap = createStockRequestDto.MarketCap
             };
         }
     }
