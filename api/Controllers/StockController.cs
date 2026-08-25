@@ -27,7 +27,7 @@ namespace api.Controllers
         public  IActionResult GetStock(int id)
         {
             var stock =  context.Stocks.Find(id);
-            if (stock == null)
+            if (stock is null)
             {
                 return NotFound();
             }
@@ -43,6 +43,31 @@ namespace api.Controllers
 
             return CreatedAtAction(nameof(GetStock), new { id = stock.Id }, stock.ToStockDto());
             
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateStock(int id, [FromBody] UpdateStockRequestDto updateStockRequestDto)
+        {
+            var stock = context.Stocks.Find(id);
+            if (stock is null)
+            {
+                return NotFound();
+            }
+
+            //#1
+            context.Entry(stock).CurrentValues.SetValues(updateStockRequestDto);
+
+            // #2
+            // stock.Symbol = updateStockRequestDto.Symbol;
+            // stock.CompanyName = updateStockRequestDto.CompanyName;
+            // stock.Purchase = updateStockRequestDto.Purchase;
+            // stock.LastDiv = updateStockRequestDto.LastDiv;
+            // stock.Industry = updateStockRequestDto.Industry;
+            // stock.MarketCap = updateStockRequestDto.MarketCap;
+
+            context.SaveChanges();
+
+            return Ok(stock.ToStockDto());
         }
     }
 }
