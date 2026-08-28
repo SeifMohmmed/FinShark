@@ -25,5 +25,23 @@ namespace api.Repository
         {
             return await context.Comments.FindAsync(id);
         }
+
+        public async Task<Comment?> UpdateAsync(int id, Comment commentModel)
+        {
+            var comment = await context.Comments.FindAsync(id);
+
+            if (comment is null)
+            {
+                return null;
+            }
+
+            comment.Title = commentModel.Title;
+            comment.Content = commentModel.Content;
+
+            context.Comments.Update(comment);
+            await context.SaveChangesAsync();
+            
+            return comment;
+        }
     }
 }
