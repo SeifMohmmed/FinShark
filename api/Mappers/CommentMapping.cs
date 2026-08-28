@@ -20,5 +20,15 @@ namespace api.Mappers
                 StockId= comment.StockId
             };
         }
+
+        public static Comment ToCommentFromCreate(this CreateCommentDto comment,int stockId)
+        {
+            return new Comment
+            {
+                Title = comment.Title,
+                Content = comment.Content,
+                StockId=stockId
+            };
+        }
     }
 }
