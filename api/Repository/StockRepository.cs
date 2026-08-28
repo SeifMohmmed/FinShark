@@ -43,7 +43,19 @@ namespace api.Repository
           {
             stocks = stocks.Where(s => s.CompanyName.Contains(queryObject.CompanyName));
           }
-          
+
+          if(!string.IsNullOrEmpty(queryObject.SortBy))
+          {
+            if(queryObject.SortBy.ToLower() == "symbol")
+            {
+                stocks = queryObject.IsDecsending ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+            }
+            else if(queryObject.SortBy.ToLower() == "companyname")
+            {
+                stocks = queryObject.IsDecsending ? stocks.OrderByDescending(s => s.CompanyName) : stocks.OrderBy(s => s.CompanyName);
+            }
+          }
+
           return await stocks.ToListAsync();
         }
 
