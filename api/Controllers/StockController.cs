@@ -13,22 +13,22 @@ namespace api.Controllers
     public class StockController(
         IStockRepository stockRepository) : ControllerBase
     {
-        
+
         [HttpGet]
-        public async Task <IActionResult> GetStocks([FromQuery] QueryObject queryObject)
+        public async Task<IActionResult> GetStocks([FromQuery] QueryObject queryObject)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var stocks =  await stockRepository.GetAllAsync(queryObject);
+            var stocks = await stockRepository.GetAllAsync(queryObject);
 
-            var stockDto = stocks .Select(s=>s.ToStockDto());
+            var stockDto = stocks.Select(s => s.ToStockDto());
 
             return Ok(stocks);
         }
 
         [HttpGet("{id:int}")]
-        public async Task <IActionResult> GetStock(
+        public async Task<IActionResult> GetStock(
             int id)
         {
             if (!ModelState.IsValid)
@@ -55,7 +55,7 @@ namespace api.Controllers
             await stockRepository.CreateAsync(stockModel);
 
             return CreatedAtAction(nameof(GetStock), new { id = stockModel.Id }, stockModel.ToStockDto());
-            
+
         }
 
         [HttpPut("{id:int}")]
@@ -66,7 +66,7 @@ namespace api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var stock = await stockRepository.UpdateAsync(id,updateStockRequestDto);
+            var stock = await stockRepository.UpdateAsync(id, updateStockRequestDto);
 
             if (stock is null)
             {
@@ -75,7 +75,7 @@ namespace api.Controllers
 
             return Ok(stock.ToStockDto());
         }
-    
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteStock(int id)
         {
