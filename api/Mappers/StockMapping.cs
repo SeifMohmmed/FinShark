@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Dtos;
 using api.Dtos.Stock;
 using api.Models;
@@ -20,7 +16,8 @@ namespace api.Mappers
               Purchase = stock.Purchase,  
               LastDiv = stock.LastDiv,
               Industry = stock.Industry,
-              MarketCap = stock.MarketCap
+              MarketCap = stock.MarketCap,
+              Comments = stock.Comments.Select(c=>c.ToCommentDto()).ToList()
             };
         }
         public static Stock ToStockFromCreateStockDto(this CreateStockRequestDto createStockRequestDto)
