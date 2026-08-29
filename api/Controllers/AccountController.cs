@@ -14,6 +14,7 @@ namespace api.Controllers
     [ApiController]
     public class AccountController(
         UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
         ITokenService tokenService) : ControllerBase
     {
         [HttpPost("register")]
@@ -60,6 +61,30 @@ namespace api.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
 
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await userManager.FindByNameAsync(loginDto.Username);
+
+            if (user is null)
+                return Unauthorized("Invalid username or password.");
+
+            var result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password, lockoutOnFailure: false);
+
+            if (!result.Succeeded)
+                return Unauthorized("Invalid username or password.");
+
+            return Ok(new NewUserDto
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                Token = tokenService.CreateToken(user)
+            });
         }
     }
 }
