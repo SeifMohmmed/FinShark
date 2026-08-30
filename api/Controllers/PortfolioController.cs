@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Extensions;
 using api.Interfaces;
 using api.Models;
@@ -24,8 +20,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> GetPortfolio()
         {
-            var userId = User.GetUsername();
-            var user = await userManager.FindByNameAsync(userId);
+            var userName = User.GetUsername();
+            var user = await userManager.FindByNameAsync(userName);
             var userPortfolio = await portfolioRepository.GetUserPortfolio(user);
 
             return Ok(userPortfolio);
@@ -35,8 +31,8 @@ namespace api.Controllers
         [Authorize]
         public async Task<IActionResult> AddToPortfolio(string symbol)
         {
-            var userId = User.GetUsername();
-            var user = await userManager.FindByNameAsync(userId);
+            var userName = User.GetUsername();
+            var user = await userManager.FindByNameAsync(userName);
 
             var stock = await stockRepository.GetBySymbolAsync(symbol);
 
@@ -60,6 +56,30 @@ namespace api.Controllers
             {
                 return Created();
             }
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> RemoveFromPortfolio(string symbol)
+        {
+            var userName = User.GetUsername();
+            var user = await userManager.FindByNameAsync(userName);
+
+            var userPortfolio = await portfolioRepository.GetUserPortfolio(user);
+
+            var filteredStock = userPortfolio.Where(s => s.Symbol.ToLower() == symbol.ToLower()).ToList();
+
+            if (filteredStock.Count() == 1)
+            {
+                await portfolioRepository.DeleteAsync(user, symbol);
+            }
+
+            else
+            {
+                return BadRequest("Stock not found in portfolio");
+            }
+
+            return NoContent();
         }
     }
 }
