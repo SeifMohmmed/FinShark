@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
 {
-    public class StockRepository(ApplicationDbContext context) : IStockRepository
+    public class StockRepository(
+        ApplicationDbContext context) : IStockRepository
     {
         public async Task<Stock> CreateAsync(Stock stock)
         {
@@ -64,6 +65,11 @@ namespace api.Repository
         public async Task<Stock?> GetByIdAsync(int id)
         {
             return await context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<Stock?> GetBySymbolAsync(string symbol)
+        {
+            return await context.Stocks.FirstOrDefaultAsync(s => s.Symbol == symbol);
         }
 
         public Task<bool> IsExist(int id)

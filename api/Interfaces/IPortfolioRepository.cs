@@ -5,5 +5,6 @@ namespace api.Interfaces
     public interface IPortfolioRepository
     {
         Task<List<Stock>> GetUserPortfolio(ApplicationUser user);
+        Task<Portfolio> CreateAsync(Portfolio portfolio);
     }
 }
