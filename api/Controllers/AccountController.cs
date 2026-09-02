@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("account")]
+    [Route("api/account")]
     [ApiController]
     public class AccountController(
         UserManager<ApplicationUser> userManager,
