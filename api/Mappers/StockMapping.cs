@@ -10,14 +10,14 @@ namespace api.Mappers
         {
             return new StockDto
             {
-              Id = stock.Id,
-              Symbol = stock.Symbol,
-              CompanyName = stock.CompanyName,
-              Purchase = stock.Purchase,  
-              LastDiv = stock.LastDiv,
-              Industry = stock.Industry,
-              MarketCap = stock.MarketCap,
-              Comments = stock.Comments.Select(c=>c.ToCommentDto()).ToList()
+                Id = stock.Id,
+                Symbol = stock.Symbol,
+                CompanyName = stock.CompanyName,
+                Purchase = stock.Purchase,
+                LastDiv = stock.LastDiv,
+                Industry = stock.Industry,
+                MarketCap = stock.MarketCap,
+                Comments = stock.Comments.Select(c => c.ToCommentDto()).ToList()
             };
         }
         public static Stock ToStockFromCreateStockDto(this CreateStockRequestDto createStockRequestDto)
@@ -30,6 +30,18 @@ namespace api.Mappers
                 LastDiv = createStockRequestDto.LastDiv,
                 Industry = createStockRequestDto.Industry,
                 MarketCap = createStockRequestDto.MarketCap
+            };
+        }
+        public static Stock ToStockFromFMP(this FMPStock fmpStock)
+        {
+            return new Stock
+            {
+                Symbol = fmpStock.symbol,
+                CompanyName = fmpStock.companyName,
+                Purchase = (decimal)fmpStock.price,
+                LastDiv = (decimal)fmpStock.lastDividend,
+                Industry = fmpStock.industry,
+                MarketCap = fmpStock.marketCap
             };
         }
     }
