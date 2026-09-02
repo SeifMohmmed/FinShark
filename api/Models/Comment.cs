@@ -9,5 +9,7 @@ namespace api.Models
         public int? StockId { get; set; }
         //Navigation property
         public Stock? Stock { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }
