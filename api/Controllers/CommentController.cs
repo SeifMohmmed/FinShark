@@ -1,8 +1,10 @@
 using api.Dtos.Comment;
 using api.Extensions;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +19,13 @@ namespace api.Controllers
         IStockRepository stockRepository) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetComments()
+        [Authorize]
+        public async Task<IActionResult> GetComments([FromQuery] CommentQueryObject queryObject)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var comment = await commentRepository.GetAllAsync();
+            var comment = await commentRepository.GetAllAsync(queryObject);
 
             var commentDto = comment.Select(c => c.ToCommentDto());
 
