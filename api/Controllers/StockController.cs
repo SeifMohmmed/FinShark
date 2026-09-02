@@ -1,11 +1,9 @@
-using api.Data;
 using api.Dtos.Stock;
 using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -24,9 +22,9 @@ namespace api.Controllers
 
             var stocks = await stockRepository.GetAllAsync(queryObject);
 
-            var stockDto = stocks.Select(s => s.ToStockDto());
+            var stockDto = stocks.Select(s => s.ToStockDto()).ToList();
 
-            return Ok(stocks);
+            return Ok(stockDto);
         }
 
         [HttpGet("{id:int}")]
