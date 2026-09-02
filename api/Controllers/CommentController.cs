@@ -12,6 +12,7 @@ namespace api.Controllers
     [ApiController]
     public class CommentController(
         UserManager<ApplicationUser> userManager,
+        IFMPService fmpService,
         ICommentRepository commentRepository,
         IStockRepository stockRepository) : ControllerBase
     {
@@ -42,21 +43,32 @@ namespace api.Controllers
             return Ok(comment.ToCommentDto());
         }
 
-        [HttpPost("{stockId:int}")]
-        public async Task<IActionResult> AddComment([FromRoute] int stockId, CreateCommentRequestDto createComment)
+        [HttpPost("{symbol:alpha}")]
+        public async Task<IActionResult> AddComment([FromRoute] string symbol, CreateCommentRequestDto createComment)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!await stockRepository.IsExist(stockId))
+            var stock = await stockRepository.GetBySymbolAsync(symbol);
+
+            if (stock is null)
             {
-                return BadRequest("Stock does not exist");
+                stock = await fmpService.FindStockBySymbolAsync(symbol);
+
+                if (stock is null)
+                {
+                    return NotFound("Stock not found");
+                }
+                else
+                {
+                    await stockRepository.CreateAsync(stock);
+                }
             }
 
             var userName = User.GetUsername();
             var user = await userManager.FindByNameAsync(userName);
 
-            var commentModel = createComment.ToCommentFromCreate(stockId);
+            var commentModel = createComment.ToCommentFromCreate(stock.Id);
             commentModel.UserId = user.Id;
 
             await commentRepository.CreateAsync(commentModel);

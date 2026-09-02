@@ -11,6 +11,7 @@ namespace api.Controllers
     [Route("/api/portfolio")]
     public class PortfolioController(
         UserManager<ApplicationUser> userManager,
+        IFMPService fmpService,
         IPortfolioRepository portfolioRepository,
         IStockRepository stockRepository
     ) : ControllerBase
@@ -35,6 +36,20 @@ namespace api.Controllers
             var user = await userManager.FindByNameAsync(userName);
 
             var stock = await stockRepository.GetBySymbolAsync(symbol);
+
+            if (stock is null)
+            {
+                stock = await fmpService.FindStockBySymbolAsync(symbol);
+
+                if (stock is null)
+                {
+                    return NotFound("Stock not found");
+                }
+                else
+                {
+                    await stockRepository.CreateAsync(stock);
+                }
+            }
 
             if (stock is null)
                 return NotFound("Stock not found");
