@@ -33,12 +33,12 @@ namespace api.Repository
 
         public async Task<List<Comment>> GetAllAsync()
         {
-            return await context.Comments.ToListAsync();
+            return await context.Comments.Include(c => c.User).ToListAsync();
         }
 
         public async Task<Comment?> GetById(int id)
         {
-            return await context.Comments.FindAsync(id);
+            return await context.Comments.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Comment?> UpdateAsync(int id, Comment commentModel)
@@ -55,7 +55,7 @@ namespace api.Repository
 
             context.Comments.Update(comment);
             await context.SaveChangesAsync();
-            
+
             return comment;
         }
     }

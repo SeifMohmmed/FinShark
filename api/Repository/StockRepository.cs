@@ -33,7 +33,7 @@ namespace api.Repository
         public async Task<List<Stock>> GetAllAsync(QueryObject queryObject)
         {
 
-            var stocks = context.Stocks.Include(c => c.Comments).AsQueryable();
+            var stocks = context.Stocks.Include(c => c.Comments).ThenInclude(a => a.User).AsQueryable();
 
             if (!string.IsNullOrEmpty(queryObject.Symbol))
             {
