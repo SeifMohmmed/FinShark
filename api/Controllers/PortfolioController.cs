@@ -35,6 +35,11 @@ namespace api.Controllers
             var userName = User.GetUsername();
             var user = await userManager.FindByNameAsync(userName);
 
+            if (user is null)
+            {
+                return Unauthorized("User not found");
+            }
+
             var stock = await stockRepository.GetBySymbolAsync(symbol);
 
             if (stock is null)
@@ -45,14 +50,10 @@ namespace api.Controllers
                 {
                     return NotFound("Stock not found");
                 }
-                else
-                {
-                    await stockRepository.CreateAsync(stock);
-                }
-            }
 
-            if (stock is null)
-                return NotFound("Stock not found");
+                await stockRepository.CreateAsync(stock);
+
+            }
 
             var portfolio = new Portfolio
             {
@@ -62,15 +63,7 @@ namespace api.Controllers
 
             await portfolioRepository.CreateAsync(portfolio);
 
-
-            if (portfolio is null)
-            {
-                return StatusCode(500, "Could not create");
-            }
-            else
-            {
-                return Created();
-            }
+            return NoContent();
         }
 
         [HttpDelete]
