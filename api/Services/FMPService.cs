@@ -20,13 +20,16 @@ namespace api.Services
                 if (result.IsSuccessStatusCode)
                 {
                     var content = await result.Content.ReadAsStringAsync();
-                    var tasks = JsonConvert.DeserializeObject<FMPStock[]>(content);
-                    var stock = tasks[0];
-                    if (stock != null)
+                    var stocks = JsonConvert.DeserializeObject<FMPStock[]>(content);
+
+                    if (stocks == null || stocks.Length == 0)
                     {
-                        return stock.ToStockFromFMP();
+                        return null;
                     }
-                    return null;
+
+                    var stock = stocks[0];
+
+                    return stock.ToStockFromFMP();
                 }
                 return null;
             }

@@ -1,0 +1,23 @@
+import axios from "axios";
+import type { CommentPost } from "../Models/Comment";
+import { handleError } from "../Helpers/ErrorHandler";
+
+const api = "http://localhost:5000/api/comment/";
+
+export const commentPostAPI = async (
+  title: string,
+  content: string,
+  symbol: string,
+) => {
+  try {
+    console.log("Comment symbol:", symbol);
+
+    const data = await axios.post<CommentPost>(api + `${symbol}`, {
+      title: title,
+      content: content,
+    });
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};

@@ -52,6 +52,9 @@ namespace api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            if (string.IsNullOrWhiteSpace(symbol))
+                return BadRequest("Stock symbol is required.");
+
             var stock = await stockRepository.GetBySymbolAsync(symbol);
 
             if (stock is null)
